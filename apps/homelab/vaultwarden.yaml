@@ -7,7 +7,7 @@ spec:
   interval: 1m
   chart:
     spec:
-      chart: vaultwarden
+      chart: truecharts/vaultwarden
       reconcileStrategy: Revision
       version: '24.0.6'
       sourceRef:
