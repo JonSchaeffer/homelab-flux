@@ -1,17 +1,22 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
-  name: longhorn-dashboard
+  name: longhorn-ingress
   namespace: longhorn-system
-  annotations: 
-    kubernetes.io/ingress.class: traefik-external
+  annotations:
+    # type of authentication
+    nginx.ingress.kubernetes.io/auth-type: basic
+    # prevent the controller from redirecting (308) to HTTPS
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+    # name of the secret that contains the user/password definitions
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    # message to display with an appropriate context why the authentication is required
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`longhorn.local.example.com`)
-      kind: Rule
-      services:
-        - name: longhorn-frontend
-#  tls:
-#    secretName: local-example-com-staging-tls
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: longhorn-frontend
+          servicePort: 80
