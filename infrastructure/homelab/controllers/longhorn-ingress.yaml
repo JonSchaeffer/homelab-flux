@@ -12,7 +12,6 @@ spec:
     - match: Host(`longhorn.local.example.com`)
       kind: Rule
       services:
-        - name: api@internal
-          kind: TraefikService
+        - name: longhorn-frontend
 #  tls:
 #    secretName: local-example-com-staging-tls
