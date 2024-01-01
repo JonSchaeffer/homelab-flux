@@ -1,0 +1,47 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  annotations:
+  name: local-jonathanschaeffer-com
+  namespace: homeservices
+spec:
+  commonName: '*.local.jonathanschaeffer.com'
+  dnsNames:
+  - local.jonathanschaeffer.com
+  - '*.local.jonathanschaeffer.com'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: local-jonathanschaeffer-com-staging-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  annotations:
+  name: local-jonathanschaeffer-com
+  namespace: default
+spec:
+  commonName: '*.local.jonathanschaeffer.com'
+  dnsNames:
+  - local.jonathanschaeffer.com
+  - '*.local.jonathanschaeffer.com'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: local-jonathanschaeffer-com-staging-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  annotations:
+  name: local-jonathanschaeffer-com
+  namespace: traefik
+spec:
+  commonName: '*.local.jonathanschaeffer.com'
+  dnsNames:
+  - local.jonathanschaeffer.com
+  - '*.local.jonathanschaeffer.com'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: local-jonathanschaeffer-com-staging-tls

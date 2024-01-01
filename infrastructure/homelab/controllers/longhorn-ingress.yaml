@@ -9,10 +9,10 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`longhorn.local.example.com`)
+    - match: Host(`longhorn.local.jonathanschaeffer.com`)
       kind: Rule
       services:
         - name: longhorn-frontend
           port: 80
-#  tls:
-#    secretName: local-example-com-staging-tls
+  tls:
+    secretName: local-jonathanschaeffer-com-staging-tls

@@ -1,0 +1,115 @@
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jackett-config-claim
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+  
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jackett-downloads-claim
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  namespace: homeservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+        - name: jackett
+          image: lscr.io/linuxserver/jackett:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Etc/UTC"
+            - name: AUTO_UPDATE
+              value: "true"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: jackett-config-claim
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: jackett-downloads-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jackett
+  namespace: homeservices
+spec:
+  selector:
+    app: jackett
+  ports:
+    - protocol: TCP
+      port: 9117
+      targetPort: 9117
+  type: NodePort # Change the service type as needed
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jackett
+  namespace: homeservices
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`www.jackett.local.jonathanschaeffer.com`)
+      kind: Rule
+      services:
+        - name: jackett
+          port: 9117
+    - match: Host(`jackett.local.jonathanschaeffer.com`)
+      kind: Rule
+      services:
+        - name: jackett
+          port: 9117
+  tls:
+    secretName: local-jonathanschaeffer-com-staging-tls
