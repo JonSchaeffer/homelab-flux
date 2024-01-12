@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr-ingress
+  namespace: homeservices
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`radarr.local.jonathanschaeffer.com`)
+      services:
+        - name: radarr
+          port: 7878
+  tls:
+    secretName: local-jonathanschaeffer-com-production-tls
