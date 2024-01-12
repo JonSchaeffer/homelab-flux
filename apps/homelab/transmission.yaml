@@ -38,7 +38,7 @@ spec:
           - name: OVERRIDE_DNS_2
             value: 8.8.4.4
           - name: TRANSMISSION_ALT_SPEED_UP
-            value: 0
+            value: "0"
       volumes:
       - name: storage-volume
         persistentVolumeClaim:
