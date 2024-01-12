@@ -13,6 +13,6 @@ spec:
       match: Host(`transmission.local.jonathanschaeffer.com`)
       services:
         - name: transmission
-          port: 9117
+          port: 9091
   tls:
     secretName: local-jonathanschaeffer-com-production-tls
