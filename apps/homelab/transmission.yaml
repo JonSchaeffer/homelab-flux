@@ -31,12 +31,12 @@ spec:
           - name: OPENVPN_PASSWORD
             valueFrom:
               secretKeyRef:
-              key: openvpn_password
-              name: transmission
+                key: openvpn_password
+                name: transmission
           - name: OVERRIDE_DNS_1
-            value: 8.8.8.8
+            value: "8.8.8.8"
           - name: OVERRIDE_DNS_2
-            value: 8.8.4.4
+            value: "8.8.4.4"
           - name: TRANSMISSION_ALT_SPEED_UP
             value: "0"
       volumes:
