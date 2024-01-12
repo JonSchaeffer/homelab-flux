@@ -1,16 +1,14 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: longhorn-dashboard
-  namespace: longhorn-system
-  annotations: 
-    kubernetes.io/ingress.class: traefik-external
+  name: longhorn-ingress
+  namespace: traefik
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`longhorn.local.jonathanschaeffer.com`)
-      kind: Rule
+    - kind: Rule
+      match: Host(`longhorn.local.jonathanschaeffer.com`)
       services:
         - name: longhorn-frontend
           port: 80

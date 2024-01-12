@@ -51,7 +51,7 @@ kind: Certificate
 metadata:
   annotations:
   name: local-jonathanschaeffer-com-prod
-  namespace: longhorn-
+  namespace: longhorn-system
 spec:
   commonName: "*.local.jonathanschaeffer.com"
   dnsNames:
