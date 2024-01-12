@@ -44,7 +44,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: radarr-service
+  name: radarr
   namespace: homeservices
 spec:
   selector:
@@ -54,7 +54,7 @@ spec:
       port: 7878
       targetPort: 7878
   type: ClusterIP
-  
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
