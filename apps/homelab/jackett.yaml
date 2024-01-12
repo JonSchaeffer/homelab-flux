@@ -87,23 +87,3 @@ spec:
       port: 9117
       targetPort: 9117
   type: ClusterIP # Change the service type as needed
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: jackett
-  namespace: homeservices
-  annotations: 
-    kubernetes.io/ingress.class: traefik-external
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`jackett.local.jonathanschaeffer.com`)
-      kind: Rule
-      services:
-        - name: jackett
-          port: 9117
-  tls:
-    secretName: local-jonathanschaeffer-com-production-tls

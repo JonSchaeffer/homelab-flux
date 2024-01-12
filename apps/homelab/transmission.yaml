@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: homeservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+        - name: transmission
+          image: haugene/transmission-openvpn
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          env:
+          - name: OPENVPN_PROVIDER
+            value: PIA
+          - name: OPENVPN_CONFIG
+            value: ca_toronto
+          - name: OPENVPN_USERNAME
+            value: p2669071
+          - name: OPENVPN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+              key: openvpn_password
+              name: transmission
+      volumes:
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: transmission-storage-pvc
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: transmission-config-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission
+  namespace: homeservices
+spec:
+  selector:
+    app: transmission
+  ports:
+    - protocol: TCP
+      port: 9091
+      targetPort: 9091
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission-storage-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission-config-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
