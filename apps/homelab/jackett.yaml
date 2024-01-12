@@ -86,10 +86,9 @@ spec:
     - protocol: TCP
       port: 9117
       targetPort: 9117
-  type: NodePort # Change the service type as needed
+  type: ClusterIP # Change the service type as needed
 
 ---
-
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -101,11 +100,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`www.jackett.local.jonathanschaeffer.com`)
-      kind: Rule
-      services:
-        - name: jackett
-          port: 9117
     - match: Host(`jackett.local.jonathanschaeffer.com`)
       kind: Rule
       services:

@@ -15,4 +15,4 @@ spec:
         - name: longhorn-frontend
           port: 80
   tls:
-    secretName: local-jonathanschaeffer-com-staging-tls
+    secretName: local-jonathanschaeffer-com-production-tls
