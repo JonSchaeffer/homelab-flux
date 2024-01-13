@@ -42,12 +42,14 @@ spec:
   selector:
     app: heimdall
   ports:
-    - protocol: TCP
-      port: 5689
-      targetPort: 80
-    - protocol: TCP
-      port: 5690
-      targetPort: 443
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5689
+    - name: https  
+      protocol: TCP
+      port: 443
+      targetPort: 5690
   type: ClusterIP
 
 ---
