@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ombi
+  namespace: homeservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ombi
+  template:
+    metadata:
+      labels:
+        app: ombi
+    spec:
+      containers:
+      - name: ombi
+        image: lscr.io/linuxserver/ombi:latest
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        - name: BASE_URL
+          value: "/ombi"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: ombi-config-pvc
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ombi
+  namespace: homeservices
+spec:
+  selector:
+    app: ombi
+  ports:
+    - protocol: TCP
+      port: 3579
+      targetPort: 3579
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ombi-config-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjust the storage capacity as needed
