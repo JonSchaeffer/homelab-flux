@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: homeservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: lscr.io/linuxserver/sonarr:latest
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+        - name: tv-series-volume
+          mountPath: /tv
+        - name: downloads-volume
+          mountPath: /downloads
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: sonarr-config-pvc
+      - name: tv-series-volume
+        persistentVolumeClaim:
+          claimName: sonarr-tv-series-pvc
+      - name: downloads-volume
+        persistentVolumeClaim:
+          claimName: sonarr-downloads-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr
+  namespace: homeservices
+spec:
+  selector:
+    app: sonarr
+  ports:
+    - protocol: TCP
+      port: 8989
+      targetPort: 8989
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-config-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjust the storage capacity as needed
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-tv-series-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi # Adjust the storage capacity as needed
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-downloads-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi # Adjust the storage capacity as needed

@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr-ingress
+  namespace: homeservices
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`sonarr.local.jonathanschaeffer.com`)
+      services:
+        - name: sonarr
+          port: 8989
+  tls:
+    secretName: local-jonathanschaeffer-com-production-tls
