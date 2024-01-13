@@ -43,8 +43,8 @@ spec:
     app: heimdall
   ports:
     - protocol: TCP
-      port: 443
-      targetPort: 5690
+      port: 5690
+      targetPort: 443
   type: ClusterIP
 
 ---
