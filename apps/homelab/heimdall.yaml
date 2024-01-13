@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimdall
+  namespace: homeservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heimdall
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      containers:
+      - name: heimdall
+        image: lscr.io/linuxserver/heimdall:latest
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: heimdall-config-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: heimdall
+  namespace: homeservices
+spec:
+  selector:
+    app: heimdall
+  ports:
+    - protocol: TCP
+      port: 5689
+      targetPort: 80
+    - protocol: TCP
+      port: 5690
+      targetPort: 443
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: heimdall-config-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjust the storage capacity as needed

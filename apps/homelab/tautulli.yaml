@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tautulli
+  namespace: homeservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tautulli
+  template:
+    metadata:
+      labels:
+        app: tautulli
+    spec:
+      containers:
+      - name: tautulli
+        image: lscr.io/linuxserver/tautulli:latest
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+      volumes:
+      - name: config-volume
+        persistentVolumeClaim:
+          claimName: tautulli-config-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tautulli
+  namespace: homeservices
+spec:
+  selector:
+    app: tautulli
+  ports:
+    - protocol: TCP
+      port: 8181
+      targetPort: 8181
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tautulli-config-pvc
+  namespace: homeservices
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjust the storage capacity as needed
