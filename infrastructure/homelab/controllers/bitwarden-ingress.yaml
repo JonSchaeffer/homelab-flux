@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: jackett-ingress
+  name: bitwarden-ingress
   namespace: homeservices
   annotations: 
     kubernetes.io/ingress.class: traefik-external
@@ -10,9 +10,9 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`jackett.local.jonathanschaeffer.com`)
+      match: Host(`bitwarden.local.jonathanschaeffer.com`)
       services:
-        - name: jackett
-          port: 9117
+        - name: bitwarden
+          port: 8089
   tls:
     secretName: local-jonathanschaeffer-com-production-tls
