@@ -1,21 +1,21 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: vaultwarden
-  namespace: homeservices
-spec:
-  interval: 1m
-  chart:
-    spec:
-      chart: vaultwarden
-      reconcileStrategy: Revision
-      version: '24.0.6'
-      sourceRef:
-        kind: HelmRepository
-        name: truecharts
-        namespace: flux-system
-      interval: 1m
-  values:
-    ingress:
-      main: 
-        required: true
+#apiVersion: helm.toolkit.fluxcd.io/v2beta1
+#kind: HelmRelease
+#metadata:
+  #  name: vaultwarden
+  #  namespace: homeservices
+#spec:
+  #  interval: 1m
+  #  chart:
+    #    spec:
+      #      chart: vaultwarden
+      #      reconcileStrategy: Revision
+      #      version: '24.0.6'
+      #      sourceRef:
+        #        kind: HelmRepository
+        #        name: truecharts
+        #        namespace: flux-system
+      #      interval: 1m
+  #  values:
+    #    ingress:
+      #      main: 
+        #        required: true
