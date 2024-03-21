@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jackett-ingress
+  namespace: homeservices
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`jackett.local.jonathanschaeffer.com`)
+      services:
+        - name: jackett
+          port: 9117
+  tls:
+    secretName: local-jonathanschaeffer-com-production-tls
