@@ -4,16 +4,10 @@ resources:
 - gotk-components.yaml
 - gotk-sync.yaml
 patches:
-    patch: |-
-      apiVersion: apps/v1
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --helm-index-max-size=70Mi
+    target:
       kind: Deployment
-      metadata:
-        name: source-controller
-        namespace: flux-system
-      spec:
-        template:
-          spec:
-            containers:
-              - name: source-controller
-                args:
-                  - --helm-index-max-size=1000Mi
+      name: "source-controller"
