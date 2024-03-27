@@ -11,7 +11,7 @@ spec:
   routes:
     - kind: Rule
       match: Host(`nextcloud.local.jonathanschaeffer.com`)
-      middlwares:
+      middlewares:
         - name: https-redirect
           namespace: homeservices
       services:
