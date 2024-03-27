@@ -11,6 +11,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`nextcloud.local.jonathanschaeffer.com`)
+      middlwares:
+        - name: https-redirect
+          namespace: homeservices
       services:
         - name: nextcloud
           port: 5656
