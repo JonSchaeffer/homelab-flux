@@ -80,7 +80,8 @@ metadata:
   namespace: homeservices
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi # Adjust the storage capacity as needed
+      storage: 50Gi # Adjust the storage capacity as needed
+  volumeName: downloads
