@@ -27,7 +27,9 @@ spec:
         - name: config-volume
           mountPath: /config
         - name: movies-volume
-          mountPath: /movies
+          hostPath:
+            path: /mnt/nas/Media/Movies
+            type: Directory
         - name: downloads-volume
           mountPath: /downloads
       volumes:
@@ -67,20 +69,6 @@ spec:
   resources:
     requests:
       storage: 1Gi # Adjust the storage capacity as needed
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: radarr-movies-pvc
-  namespace: homeservices
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi # Adjust the storage capacity as needed
 
 ---
 
