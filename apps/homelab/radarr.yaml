@@ -30,6 +30,7 @@ spec:
           hostPath:
             path: /mnt/nas/Media/Movies
             type: Directory
+          mountPath: /movies
         - name: downloads-volume
           mountPath: /downloads
       volumes:
