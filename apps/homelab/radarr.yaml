@@ -37,9 +37,6 @@ spec:
       - name: config-volume
         persistentVolumeClaim:
           claimName: radarr-config-pvc
-      - name: movies-volume
-        persistentVolumeClaim:
-          claimName: radarr-movies-pvc
       - name: downloads-volume
         persistentVolumeClaim:
           claimName: radarr-downloads-pvc
