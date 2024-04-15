@@ -27,9 +27,6 @@ spec:
         - name: config-volume
           mountPath: /config
         - name: movies-volume
-          hostPath:
-            path: /mnt/nas/Media/Movies
-            type: Directory
           mountPath: /movies
         - name: downloads-volume
           mountPath: /downloads
@@ -44,6 +41,7 @@ spec:
         hostPath:
           path: /mnt/nas/Media/Movies
           type: Directory
+
 ---
 apiVersion: v1
 kind: Service
