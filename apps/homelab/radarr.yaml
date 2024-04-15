@@ -40,6 +40,10 @@ spec:
       - name: downloads-volume
         persistentVolumeClaim:
           claimName: radarr-downloads-pvc
+      - name: movies-volumes
+        hostPath:
+          path: /mnt/nas/Media/Movies
+          type: Directory
 ---
 apiVersion: v1
 kind: Service
