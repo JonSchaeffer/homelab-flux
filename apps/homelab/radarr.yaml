@@ -33,10 +33,10 @@ spec:
       volumes:
       - name: config-volume
         persistentVolumeClaim:
-          claimName: downloads
+          claimName: radarr-config-pvc
       - name: downloads-volume
         persistentVolumeClaim:
-          claimName: radarr-downloads-pvc
+          claimName: downloads
       # - name: movies-volume
       #   hostPath:
       #     path: /mnt/nas/Media/Movies
@@ -61,14 +61,14 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: downloads
+  name: radarr-config-pvc
   namespace: homeservices
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Gi # Adjust the storage capacity as needed
+      storage: 1Gi # Adjust the storage capacity as needed
 
 # ---
 #
