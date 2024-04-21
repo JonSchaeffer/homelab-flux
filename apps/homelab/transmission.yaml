@@ -39,6 +39,11 @@ spec:
             value: "8.8.4.4"
           - name: TRANSMISSION_ALT_SPEED_UP
             value: "0"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: downloads-volume
+              mountPath: /data/completed
       volumes:
       - name: downloads-volume
         persistentVolumeClaim:
