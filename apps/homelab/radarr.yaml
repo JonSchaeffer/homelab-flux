@@ -38,9 +38,9 @@ spec:
         persistentVolumeClaim:
           claimName: downloads
       - name: movies-volume
-        hostpath:
-          path: /mnt/nas/Media/Movies
-          type: directory
+        nfs:
+          server: 192.168.0.215
+          type: /Media/Movies
 
 ---
 apiVersion: v1
