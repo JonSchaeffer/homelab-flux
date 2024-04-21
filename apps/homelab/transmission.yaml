@@ -40,9 +40,9 @@ spec:
           - name: TRANSMISSION_ALT_SPEED_UP
             value: "0"
       volumes:
-      - name: storage-volume
+      - name: downloads-volume
         persistentVolumeClaim:
-          claimName: transmission-storage-pvc
+          claimName: downloads
       - name: config-volume
         persistentVolumeClaim:
           claimName: transmission-config-pvc
@@ -61,21 +61,6 @@ spec:
       port: 9091
       targetPort: 9091
   type: ClusterIP
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: transmission-storage-pvc
-  namespace: homeservices
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 10Gi
 
 
 ---
