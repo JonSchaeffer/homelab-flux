@@ -40,7 +40,7 @@ spec:
       - name: movies-volume
         nfs:
           server: 192.168.0.215
-          type: /Media/Movies
+          path: /Media/Movies
 
 ---
 apiVersion: v1
