@@ -39,7 +39,7 @@ spec:
           claimName: downloads
       - name: movies-volume
         hostpath:
-          path: /mnt/nas/media/movies
+          path: /mnt/nas/Media/Movies
           type: directory
 
 ---
