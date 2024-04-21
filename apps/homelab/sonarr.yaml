@@ -26,7 +26,7 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /config
-        - name: tv-series-volume
+        - name: tvshows-volume
           mountPath: /tv
         - name: downloads-volume
           mountPath: /downloads
@@ -34,12 +34,13 @@ spec:
       - name: config-volume
         persistentVolumeClaim:
           claimName: sonarr-config-pvc
-      - name: tv-series-volume
-        persistentVolumeClaim:
-          claimName: sonarr-tv-series-pvc
       - name: downloads-volume
         persistentVolumeClaim:
-          claimName: sonarr-downloads-pvc
+          claimName: downloads
+      - name: tvshows-volume
+        nfs:
+          server: 192.168.0.215
+          path: /mnt/md0/public/Media/TVShows
 
 ---
 
@@ -70,31 +71,3 @@ spec:
   resources:
     requests:
       storage: 1Gi # Adjust the storage capacity as needed
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sonarr-tv-series-pvc
-  namespace: homeservices
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi # Adjust the storage capacity as needed
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sonarr-downloads-pvc
-  namespace: homeservices
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi # Adjust the storage capacity as needed
